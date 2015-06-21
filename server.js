@@ -25,7 +25,12 @@ var options = {
 
 app.use(express.static('public', options));
 
-app.set('view engine', swig.view.e)
+
+app.engine('html', swig.renderFile);
+app.set('view engine', 'html');
+app.set('views', __dirname + '/views');
+app.set('view cache', false);
+swig.setDefaults({ cache: false });
 
 app.get('/', home.index);
 
