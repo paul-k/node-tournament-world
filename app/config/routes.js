@@ -6,7 +6,7 @@
 
     'use strict';
 
-    var homeController = require('../controllers/homeController');
+    var homeController = require('./homeController');
 
 
     var routes = function(app) {
