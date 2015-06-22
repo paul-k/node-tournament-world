@@ -7,20 +7,22 @@ var express = require('express'),
     home = require('./routes/home');
 
 var app = express();
-
-var options = {
-    dotfiles: 'ignore',
-    etag: false,
-    extensions: ['htm', 'html'],
-    index: false,
-    maxAge: '1d',
-    redirect: false,
-    setHeaders: function (res, path, stat) {
-        res.set('x-timestamp', Date.now());
+var config = {
+    port: process.env.PORT || 3000,
+    staticOptions: {
+        dotfiles: 'ignore',
+        etag: false,
+        extensions: ['htm', 'html'],
+        index: false,
+        maxAge: '1d',
+        redirect: false,
+        setHeaders: function(res, path, stat) {
+            res.set('x-timestamp', Date.now());
+        }
     }
-}
+};
 
-app.use(express.static('public', options));
+app.use(express.static('public', config.staticOptions));
 
 app.engine('html', swig.renderFile);
 
@@ -33,4 +35,6 @@ swig.setDefaults({ cache: false });
 app.get('/', home.index);
 
 
-app.listen(3000);
+app.listen(config.port, function() {
+    console.log('Running on port: ' + config.port);
+});

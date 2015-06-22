@@ -1,13 +1,19 @@
 {
   "name": "node-tournament-world",
   "version": "0.0.1",
-  "license": "",
+  "description": "",
+  "main": "server.js",
+  "author": "Paul Kennedy",
+  "license": "ISC",
   "repository": {
-	"type" : "git",
-	"url" : "https://github.com/paul-k/node-tournament-world.git"
+    "type": "git",
+    "url": "https://github.com/paul-k/node-tournament-world.git"
   },
   "dependencies": {
-    "express": "4.12.4",
-    "swig": "1.4.2"
-  }
+    "express": "^4.12.4",
+    "gulp": "^3.9.0",
+    "gulp-nodemon": "^2.0.3",
+    "swig": "^1.4.2"
+  },
+  "devDependencies": {}
 }
