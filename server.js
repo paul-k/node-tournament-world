@@ -6,8 +6,8 @@
 
     'use strict';
 
-    var express = require('./config/express'),
-        configureRoutes = require('./config/routes');
+    var express = require('./app/config/express'),
+        configureRoutes = require('./app/config/routes');
 
     configureRoutes(express.app);
 
