@@ -4,6 +4,8 @@
 
 (function() {
 
+    'use strict';
+
     var controller = {
         index: function(req, res) {
             res.render('home/index');

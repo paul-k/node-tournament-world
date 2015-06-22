@@ -2,39 +2,18 @@
  * Created by Paul on 20/06/2015.
  */
 
-var express = require('express'),
-    swig = require('swig'),
-    home = require('./routes/home');
+(function() {
 
-var app = express();
-var config = {
-    port: process.env.PORT || 3000,
-    staticOptions: {
-        dotfiles: 'ignore',
-        etag: false,
-        extensions: ['htm', 'html'],
-        index: false,
-        maxAge: '1d',
-        redirect: false,
-        setHeaders: function(res, path, stat) {
-            res.set('x-timestamp', Date.now());
-        }
-    }
-};
+    'use strict';
 
-app.use(express.static('public', config.staticOptions));
+    var express = require('./config/express'),
+        configureRoutes = require('./config/routes');
 
-app.engine('html', swig.renderFile);
+    configureRoutes(express.app);
 
-app.set('view engine', 'html');
-app.set('views', __dirname + '/views');
+    express.app.listen(express.config.port, function() {
+        console.log('Running on port: ' + express.config.port);
+    });
 
-app.set('view cache', false);
-swig.setDefaults({ cache: false });
+})();
 
-app.get('/', home.index);
-
-
-app.listen(config.port, function() {
-    console.log('Running on port: ' + config.port);
-});
