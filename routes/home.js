@@ -2,7 +2,14 @@
  * Created by Paul on 21/06/2015.
  */
 
-exports.index = function(req, res, next) {
-    res.render('home/index');
-    next();
-};
+(function() {
+
+    var controller = {
+        index: function(req, res) {
+            res.render('home/index');
+        }
+    };
+
+    module.exports = controller;
+
+})();
