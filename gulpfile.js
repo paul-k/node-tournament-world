@@ -1,7 +1,8 @@
-﻿var gulp = require('gulp'),
-    nodemon = require('gulp-nodemon');
+﻿var gulp = require('gulp');
 
 gulp.task('default', function() {
+    var nodemon = require('gulp-nodemon');
+    
     nodemon({
         scripts: 'server.js',
         ext: 'js',
@@ -13,4 +14,19 @@ gulp.task('default', function() {
     .on('restart', function() {
         console.log('Restarting...');
     });
+});
+
+gulp.task('tests', function() {
+    var mocha = require('gulp-mocha');
+    
+    var testFiles = ['./app/tests/controllers/*.js']
+    var options = {
+        reporter: 'spec',
+        globals: {
+            should: require('should')
+        }
+    };
+    
+    return gulp.src(testFiles, { read: false })
+        .pipe(mocha(options));
 });

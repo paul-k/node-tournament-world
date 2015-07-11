@@ -15,5 +15,8 @@
     "gulp-nodemon": "^2.0.3",
     "swig": "^1.4.2"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "gulp-mocha": "^2.1.2",
+    "should": "^7.0.2"
+  }
 }
