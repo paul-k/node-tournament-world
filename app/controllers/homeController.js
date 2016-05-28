@@ -4,14 +4,14 @@
 
 (function() {
 
-    'use strict';
+	'use strict';
 
-    var controller = {
-        index: function(req, res) {
-            res.render('home/index');
-        }
-    };
+	var controller = {
+		index: function(req, res) {
+			res.render('home/index');
+		}
+	};
 
-    module.exports = controller;
+	module.exports = controller;
 
 })();

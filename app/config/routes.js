@@ -4,17 +4,14 @@
 
 (function() {
 
-    'use strict';
+	'use strict';
 
-    var homeController = require('../controllers/homeController');
+	var homeController = require('../controllers/homeController');
 
+	var routes = function(app) {
+		app.get('/', homeController.index);
+	}
 
-    var routes = function(app) {
-
-        app.get('/', homeController.index);
-
-    }
-
-    module.exports = routes;
+	module.exports = routes;
 
 })();

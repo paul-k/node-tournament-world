@@ -4,16 +4,16 @@
 
 (function() {
 
-    'use strict';
+	'use strict';
 
-    var express = require('./app/config/express'),
-        configureRoutes = require('./app/config/routes');
+	var express = require('./app/config/express'),
+		configureRoutes = require('./app/config/routes');
 
-    configureRoutes(express.app);
+	configureRoutes(express.app);
 
-    express.app.listen(express.config.port, function() {
-        console.log('Running on port: ' + express.config.port);
-    });
+	express.app.listen(express.config.port, function() {
+		console.log('Running on port: ' + express.config.port);
+	});
 
 })();
 
