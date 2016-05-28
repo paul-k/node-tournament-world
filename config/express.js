@@ -32,7 +32,7 @@
 	app.engine('html', swig.renderFile);
 
 	app.set('view engine', 'html');
-	app.set('views', './app/views/');
+	app.set('views', './views/');
 
 	app.set('view cache', false);
 	swig.setDefaults({ cache: false });

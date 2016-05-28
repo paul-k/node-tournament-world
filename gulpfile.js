@@ -19,7 +19,7 @@ gulp.task('default', function() {
 gulp.task('tests', function() {
 	var mocha = require('gulp-mocha');
 
-	var testFiles = ['./app/tests/controllers/*.js']
+	var testFiles = ['./tests/controllers/*.js']
 	var options = {
 		reporter: 'spec',
 		globals: {
