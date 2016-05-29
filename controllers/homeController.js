@@ -1,6 +1,9 @@
+import React from 'react';
+
 var controller = {
 	index: function(req, res) {
-		res.render('home/index');
+		var reactHtml = "<div>Hello World</div>"; //React.renderToString(ReactApp({}));
+		res.render('index.ejs', {reactOutput: reactHtml});
 	}
 };
 

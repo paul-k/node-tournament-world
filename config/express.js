@@ -1,5 +1,4 @@
 import express from 'express';
-import swig from 'swig';
 
 var config = {
 	port: process.env.PORT || 3000,
@@ -16,19 +15,11 @@ var config = {
 	}
 };
 
-
 var app = express();
-
 app.use(express.static('public', config.staticOptions));
-
-app.engine('html', swig.renderFile);
-
-app.set('view engine', 'html');
-app.set('views', './public/views/');
-
+app.set('views', './public/');
+app.set('view engine', 'ejs');
 app.set('view cache', false);
-swig.setDefaults({ cache: false });
-
 
 export default {
 	app: app,

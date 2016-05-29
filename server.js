@@ -1,5 +1,8 @@
 import express from './config/express';
 import configureRoutes from './config/routes';
+import nodeJsx from 'node-jsx';
+
+nodeJsx.install();
 
 configureRoutes(express.app);
 

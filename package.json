@@ -1,34 +1,33 @@
 {
-	"name": "node-tournament-world",
-	"version": "0.0.1",
-	"description": "",
-	"main": "server.js",
-	"author": "Paul Kennedy",
-	"license": "ISC",
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/paul-k/tournament-world.git"
-	},
-	"dependencies": {
-		"express": "^4.12.4",
-		"gulp": "^3.9.0",
-		"gulp-nodemon": "^2.0.3",
-		"swig": "^1.4.2"
-	},
-	"devDependencies": {
-		"babel-core": "^6.9.0",
-		"babel-loader": "^6.2.4",
-		"babel-preset-es2015": "^6.9.0",
-		"babel-preset-react": "^6.5.0",
-		"gulp-mocha": "^2.1.2",
-		"should": "^7.0.2",
-		"classnames": "^2.2.5",
-		"json-loader": "^0.5.4",
-		"react": "^15.0.2",
-		"react-dom": "^15.0.2",
-		"redux": "^3.5.2",
-		"reqwest": "^2.0.5",
-		"webpack": "^1.13.0",
-		"webpack-stream": "^3.2.0"
-	}
+  "name": "tournament-world",
+  "version": "0.0.2",
+  "description": "",
+  "main": "server.js",
+  "author": "Paul Kennedy",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/paul-k/tournament-world.git"
+  },
+  "dependencies": {
+    "ejs": "^2.4.2",
+    "express": "^4.12.4",
+    "gulp": "^3.9.0",
+    "gulp-nodemon": "^2.0.3",
+    "node-jsx": "^0.13.3",
+    "react": "^15.0.2",
+    "react-dom": "^15.0.2",
+    "redux": "^3.5.2",
+    "reqwest": "^2.0.5"
+  },
+  "devDependencies": {
+    "babel-core": "^6.9.0",
+    "babel-loader": "^6.2.4",
+    "babel-preset-es2015": "^6.9.0",
+    "babel-preset-react": "^6.5.0",
+    "classnames": "^2.2.5",
+    "json-loader": "^0.5.4",
+    "webpack": "^1.13.0",
+    "webpack-stream": "^3.2.0"
+  }
 }
