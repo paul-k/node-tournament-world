@@ -16,7 +16,7 @@ module.exports = {
 		server: "server.js"
 	},
 	resolve: {
-		root: path.resolve(__dirname),
+		root: path.resolve(__dirname + "/src"),
 		extensions: ["", ".js", ".jsx", ".json"]
 	},
 	output : {

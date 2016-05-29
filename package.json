@@ -2,7 +2,7 @@
   "name": "tournament-world",
   "version": "0.0.2",
   "description": "",
-  "main": "server.js",
+  "main": "build\\server.js",
   "author": "Paul Kennedy",
   "license": "ISC",
   "repository": {
