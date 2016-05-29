@@ -11,10 +11,10 @@ fs.readdirSync('node_modules')
 		nodeModules[mod] = 'commonjs ' + mod;
 	});
 
-module.exports = {
+module.exports = [{
 	context : path.resolve("src"),
 	entry : {
-		server: "server.js"
+		'server': "server.js",
 	},
 	resolve: {
 		root: path.resolve(__dirname + "/src"),
@@ -53,4 +53,32 @@ module.exports = {
 	//devtool: 'source-map',
 	target: 'node',
 	externals: nodeModules
-};
+},{
+	context : path.resolve("src"),
+	entry : {
+		'public/app': "app/app.js"
+	},
+	resolve: {
+		root: path.resolve(__dirname + "/src"),
+		extensions: ["", ".js", ".jsx", ".json"]
+	},
+	output : {
+		path: path.resolve(__dirname + "/build"),
+		publicPath : "/build",
+		filename: "[name].js"
+	},
+	module: {
+		loaders: [{
+			test: /\.js$|\.jsx$/,
+			exclude: /node_modules/,
+			loader: "babel-loader",
+			query: {
+				"presets": ["es2015", "react"]
+			}
+		},{
+			test: /\.json$/, 
+			loader: 'json-loader' 
+		}]
+	}//,
+	//devtool: 'source-map'
+}];
