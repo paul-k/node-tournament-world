@@ -4,7 +4,7 @@ gulp.task('default', function() {
 	var nodemon = require('gulp-nodemon');
 
 	nodemon({
-		scripts: 'server.js',
+		script: 'build/server.js',
 		ext: 'js',
 		env: {
 			PORT: 3000

@@ -1,17 +1,7 @@
-/**
- * Created by Paul on 22/06/2015.
- */
+import homeController from 'controllers/homeController';
 
-(function() {
+var routes = function(app) {
+	app.get('/', homeController.index);
+}
 
-	'use strict';
-
-	var homeController = require('../controllers/homeController');
-
-	var routes = function(app) {
-		app.get('/', homeController.index);
-	}
-
-	module.exports = routes;
-
-})();
+export default routes;
