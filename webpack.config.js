@@ -1,5 +1,6 @@
 var path = require("path");
 var fs = require('fs');
+var CopyWebpackPlugin = require('copy-webpack-plugin');
 
 var nodeModules = {};
 fs.readdirSync('node_modules')
@@ -37,6 +38,18 @@ module.exports = {
 			loader: 'json-loader' 
 		}]
 	},
+	plugins: [
+		new CopyWebpackPlugin(
+			[{ 
+				from: '/src/public/**/*',
+				to: '/build/public'
+			}, {
+				from: '/src/gulpfile.js',
+				to: '/build/gulpfile.js'
+			}], {
+			copyUnmodified: true
+		})
+	],
 	//devtool: 'source-map',
 	target: 'node',
 	externals: nodeModules

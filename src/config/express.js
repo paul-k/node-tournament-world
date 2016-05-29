@@ -17,7 +17,7 @@ var config = {
 
 var app = express();
 app.use(express.static('public', config.staticOptions));
-app.set('views', './public/');
+app.set('views', 'public');
 app.set('view engine', 'ejs');
 app.set('view cache', false);
 
