@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDom from 'react-dom';
 
-import HelloWorld from 'app/components/HelloWorld'
+import App from 'app/components/App'
 
-console.log('rendering from app.js');
-ReactDom.render(<HelloWorld text="fromjs" />, document.getElementById('react-main-mount'));
+ReactDom.render(<App />, document.getElementById('react-main-mount'));
