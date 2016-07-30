@@ -8,7 +8,7 @@ export default class HomePage extends React.Component {
 
 	render() {
 		return (
-			<h1>Hello World from React</h1>
+			<h1>Hello World from React - { this.props.children }</h1>
 		)
 	}
 }
