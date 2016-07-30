@@ -1,6 +1,5 @@
 var path = require('path');
 var fs = require('fs');
-var CopyWebpackPlugin = require('copy-webpack-plugin');
 
 var nodeModules = {};
 fs.readdirSync('node_modules')
