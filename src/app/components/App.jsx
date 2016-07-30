@@ -1,5 +1,5 @@
 import React from 'react';
-import { Router, Route, Link, browserHistory } from 'react-router';
+import { Router, Route, Link, hashHistory } from 'react-router';
 
 import HomePage from 'app/components/HomePage';
 
@@ -11,7 +11,7 @@ export default class App extends React.Component {
 
 	render() {
 		return (
-			<Router history={browserHistory}>
+			<Router history={ hashHistory }>
 				<Route path="/" Component={HomePage}></Route>
 			</Router>
 		)

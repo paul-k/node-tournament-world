@@ -6,9 +6,9 @@ let ReactApp = React.createFactory(App);
 
 var controller = {
 	index: function(req, res) {
-		var reactHtml = ReactDomServer.renderToString(ReactApp({}));
+		//var reactHtml = ReactDomServer.renderToString(ReactApp({}));
 		res.render('index.ejs', {
-			reactOutput: reactHtml
+			reactOutput: ''//reactHtml
 		});
 	}
 };

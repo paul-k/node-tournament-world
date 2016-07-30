@@ -1,84 +1,52 @@
-var path = require("path");
+var path = require('path');
 var fs = require('fs');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 
 var nodeModules = {};
 fs.readdirSync('node_modules')
-	.filter(function(x) {
-		return ['.bin'].indexOf(x) === -1;
-	})
-	.forEach(function(mod) {
-		nodeModules[mod] = 'commonjs ' + mod;
-	});
+	.filter(x => ['.bin'].indexOf(x) === -1)
+	.forEach(mod => { nodeModules[mod] = 'commonjs ' + mod; });
 
-module.exports = [{
-	context : path.resolve("src"),
-	entry : {
-		'server': "server.js",
+var defaultConfig = {
+	context: path.join(__dirname, 'src'),
+	entry: {
 	},
 	resolve: {
-		root: path.resolve(__dirname + "/src"),
-		extensions: ["", ".js", ".jsx", ".json"]
+		root: path.join(__dirname, 'src'),
+		extensions: ['', '.js', '.jsx', '.json']
 	},
-	output : {
-		path: path.resolve(__dirname + "/build"),
-		publicPath : "/build",
-		filename: "[name].js"
+	output: {
+		path: path.join(__dirname, 'dist'),
+		publicPath : '/dist',
+		filename: '[name].js'
 	},
 	module: {
 		loaders: [{
 			test: /\.js$|\.jsx$/,
 			exclude: /node_modules/,
-			loader: "babel-loader",
+			loader: 'babel-loader',
 			query: {
-				"presets": ["es2015", "react"]
+				'presets': ['es2015', 'react']
 			}
 		},{
 			test: /\.json$/, 
 			loader: 'json-loader' 
 		}]
-	},
-	plugins: [
-		new CopyWebpackPlugin(
-			[{ 
-				from: '/src/public/**/*',
-				to: '/build/public'
-			}, {
-				from: '/src/gulpfile.js',
-				to: '/build/gulpfile.js'
-			}], {
-			copyUnmodified: true
-		})
-	],
-	//devtool: 'source-map',
-	target: 'node',
-	externals: nodeModules
-},{
-	context : path.resolve("src"),
-	entry : {
-		'public/app': "app/app.js"
-	},
-	resolve: {
-		root: path.resolve(__dirname + "/src"),
-		extensions: ["", ".js", ".jsx", ".json"]
-	},
-	output : {
-		path: path.resolve(__dirname + "/build"),
-		publicPath : "/build",
-		filename: "[name].js"
-	},
-	module: {
-		loaders: [{
-			test: /\.js$|\.jsx$/,
-			exclude: /node_modules/,
-			loader: "babel-loader",
-			query: {
-				"presets": ["es2015", "react"]
-			}
-		},{
-			test: /\.json$/, 
-			loader: 'json-loader' 
-		}]
-	}//,
-	//devtool: 'source-map'
-}];
+	}
+};
+
+var server = Object.assign({}, defaultConfig);
+server.entry = {
+	'server': 'server.js',
+};
+server.target = 'node';
+server.externals = nodeModules;
+
+
+var public = Object.assign({}, defaultConfig);
+public.entry = {
+	'public/app': 'app/app.js'
+};
+//public.devtool = 'source-map';
+
+module.exports = [server, public];
