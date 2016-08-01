@@ -1,21 +1,21 @@
 import React from 'react';
 import { Link } from 'react-router';
 
-export default class Navigation extends React.Component {
+const Navigation = () => (
+	<nav>
+		<h2>api</h2>
+		<ul>
+			<li><a href="/account">Account</a></li>
+			<li><a href="/signin">Sign in</a></li>
+			<li><a href="/register">Register</a></li>
+		</ul>
+		<h2>app</h2>
+		<ul>
+			<li><Link to="/" activeClassName="active">home</Link></li>
+			<li><Link to="/test" activeClassName="active">test</Link></li>
+			<li><Link to="/hello" activeClassName="active">hello</Link></li>
+		</ul>
+	</nav>
+);
 
-	constructor(props){
-		super(props);
-	}
-
-	render() {
-		return (
-			<nav>
-				<ul>
-					<li><Link to="/account" activeClassName="active">My Account</Link></li>
-					<li><Link to="/signin" activeClassName="active">Sign in</Link></li>
-					<li><Link to="/register" activeClassName="active">Register</Link></li>
-				</ul>
-			</nav>
-		)
-	}
-}
+export default Navigation;

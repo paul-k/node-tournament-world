@@ -1,14 +1,7 @@
 import React from 'react';
 
-export default class HomePage extends React.Component {
+const HomePage = () => (
+	<h1>Hello World from React Home Page</h1>
+);
 
-	constructor(props){
-		super(props);
-	}
-
-	render() {
-		return (
-			<h1>Hello World from React - { this.props.children }</h1>
-		)
-	}
-}
+export default HomePage;

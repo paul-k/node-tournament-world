@@ -1,27 +1,20 @@
 import React from 'react';
-import { Router, Route, Link, browserHistory, IndexRoute } from 'react-router';
+import { Router, Route, Link, hashHistory, IndexRoute } from 'react-router';
 
-import Navigation from 'app/components/Navigation';
+import Container from 'app/components/Container';
+
 import HomePage from 'app/components/HomePage';
 import TestPage from 'app/components/TestPage';
+import NotFound from 'app/components/NotFound';
 
-export default class App extends React.Component {
+const App = () => (
+	<Router history={ hashHistory }>
+		<Route path="/" component={ Container }>
+			<IndexRoute component={ HomePage } />
+			<Route path="/test" component={ TestPage }></Route>
+			<Route path="*" component={ NotFound }></Route>
+		</Route>
+	</Router>
+);
 
-	constructor(props){
-		super(props);
-	}
-
-	render() {
-		return (
-			<Router history={ browserHistory }>
-				
-				<Route path="/" Component={ HomePage }>
-					<IndexRoute component={ HomePage }/>
-					<Route path="/nav" Component={ Navigation }></Route>
-					<Route path="/test" Component={ TestPage }></Route>
-				</Route>
-				{ this.props.children }
-			</Router>
-		)
-	}
-}
+export default App;
