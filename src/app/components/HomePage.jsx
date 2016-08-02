@@ -1,5 +1,7 @@
 import React from 'react';
 
+import generateRounds from 'app/roundGenerator';
+
 class HomePage extends React.Component {
 
 	constructor(props) {
@@ -12,32 +14,8 @@ class HomePage extends React.Component {
 				{ id: 3, name: 'Simon' },
 				{ id: 4, name: 'Theodore' }
 			],
-			rounds: [{
-				groups: [{
-					name1: 1,
-					name2: 2
-				}, {
-					name1: 3,
-					name2: 4
-				}]
-			}, {
-				groups: [{
-					name1: 1,
-					name2: 3
-				}, {
-					name1: 2,
-					name2: 4
-				}]
-			}, {
-				groups: [{
-					name1: 1,
-					name2: 4
-				}, {
-					name1: 2,
-					name2: 3
-				}]
-			}]
-		}
+			rounds: []
+		};
 	}
 
 	onAddNameClick() {
@@ -45,13 +23,18 @@ class HomePage extends React.Component {
 			let participants = Object.assign([], this.state.participants);
 
 			participants.push({
-				id: participants.length,
+				id: participants.length + 1,
 				name: this.refs.nameInput.value
 			});
 			this.refs.nameInput.value = '';
 
-			this.setState({ participants: participants });
+			this.setState({ participants });
 		}
+	}
+
+	onGenerateRoundsClick() {
+		let rounds = generateRounds(this.state.participants.map(p => p.id));
+		this.setState({ rounds });
 	}
 
 	getParticipantsName(id) {
@@ -67,6 +50,10 @@ class HomePage extends React.Component {
 					<button onClick={ this.onAddNameClick.bind(this) }>Add Participant</button>
 				</form>
 
+				<form>
+					<button onClick={ this.onGenerateRoundsClick.bind(this) }>Generate Rounds</button>
+				</form>
+
 				<h2>participants</h2>
 				<ul>
 				{
@@ -80,9 +67,9 @@ class HomePage extends React.Component {
 							<h3>round { i + 1 }</h3>
 							<ul>
 								{
-									x.groups.map(g => (
-										<li>
-											{ this.getParticipantsName(g.name1) } - { this.getParticipantsName(g.name2) }
+									(x.groups || []).map((g, i) => (
+										<li key={ 'group' + (i + 1) }>
+											{ this.getParticipantsName(g.id1) }{g.id1} - { this.getParticipantsName(g.id2) }{g.id2}
 										</li>
 									))
 								}
