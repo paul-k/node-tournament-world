@@ -5,7 +5,7 @@ import generateRounds from 'app/roundGenerator';
 class HomePage extends React.Component {
 
 	constructor(props) {
-		super(props)
+		super(props);
 
 		this.state = {
 			participants: [
@@ -38,8 +38,8 @@ class HomePage extends React.Component {
 	}
 
 	getParticipantsName(id) {
-		var p = this.state.participants.filter(p => p.id === id)[0] || {};
-		return p.name;
+		var participant = this.state.participants.filter(p => p.id === id)[0] || {};
+		return participant.name;
 	}
 
 	render() {
@@ -57,18 +57,18 @@ class HomePage extends React.Component {
 				<h2>participants</h2>
 				<ul>
 				{
-					this.state.participants.map((x, i) => (<li key={ 'part' + i }>{ x.name }</li>))
+					this.state.participants.map((p, pi) => (<li key={ 'part' + pi }>{ p.name }</li>))
 				}
 				</ul>
-				
+
 				{
-					this.state.rounds.map((x, i) => (
-						<div key={ 'round' + (i + 1) }>
-							<h3>round { i + 1 }</h3>
+					this.state.rounds.map((r, ri) => (
+						<div key={ 'round' + (ri + 1) }>
+							<h3>round { ri + 1 }</h3>
 							<ul>
 								{
-									(x.groups || []).map((g, i) => (
-										<li key={ 'group' + (i + 1) }>
+									(r.groups || []).map((g, gi) => (
+										<li key={ 'group' + (gi + 1) }>
 											{ this.getParticipantsName(g.id1) }{g.id1} - { this.getParticipantsName(g.id2) }{g.id2}
 										</li>
 									))

@@ -1,7 +1,7 @@
 import express from 'express';
 
 var config = {
-	port: process.env.PORT || 3000,
+	port: process.env.PORT || 3000, // eslint-disable-line no-process-env
 	staticOptions: {
 		dotfiles: 'ignore',
 		etag: false,

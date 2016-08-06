@@ -1,5 +1,5 @@
 import React from 'react';
-import { Router, Route, Link, hashHistory, IndexRoute } from 'react-router';
+import { Router, Route, hashHistory, IndexRoute } from 'react-router';
 
 import Container from 'app/components/Container';
 
