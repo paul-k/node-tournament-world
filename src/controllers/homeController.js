@@ -15,7 +15,6 @@ var controller = {
 				// You can also check renderProps.components or renderProps.routes for
 				// your "not found" component or route respectively, and send a 404 as
 				// below, if you're using a catch-all route.
-				console.log(renderProps);
 				var reactHtml = renderToString(<RouterContext {...renderProps} />);
 				res.render('index.ejs', {
 					reactOutput: reactHtml

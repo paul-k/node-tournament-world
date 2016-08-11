@@ -1,7 +1,9 @@
 var path = require('path');
 var fs = require('fs');
 
-var nodeModules = {};
+var nodeModules = {
+	'react-dom/server': 'commonjs react-dom/server'
+};
 fs.readdirSync('node_modules')
 	.filter(x => ['.bin'].indexOf(x) === -1)
 	.forEach(mod => { nodeModules[mod] = 'commonjs ' + mod; });
