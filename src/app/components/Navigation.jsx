@@ -5,9 +5,9 @@ const Navigation = () => (
 	<nav>
 		<h2>api</h2>
 		<ul>
-			<li><a href="/account">Account</a></li>
-			<li><a href="/signin">Sign in</a></li>
-			<li><a href="/register">Register</a></li>
+			<li><a href="/api/account">Account</a></li>
+			<li><a href="/api/account/signin">Sign in</a></li>
+			<li><a href="/api/account/register">Register</a></li>
 		</ul>
 		<h2>app</h2>
 		<ul>
