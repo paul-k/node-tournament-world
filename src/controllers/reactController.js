@@ -14,20 +14,13 @@ var controller = {
 				res.redirect(302, redirectLocation.pathname + redirectLocation.search);
 			} else if (renderProps) {
 
-				let status = 200;
+				let status = (renderProps.components.indexOf(NotFound) > -1) ? 404 : 200;
+				var reactHtml = renderToString(<RouterContext {...renderProps} />);
 
-				if (renderProps.components.indexOf(NotFound) > -1) {
-					status = 404;
-				}
-
-				var reactHtml = renderToString(
-					<RouterContext {...renderProps} />
-				);
-
-				res.render('index.ejs', {
-					status,
-					reactOutput: reactHtml
-				});
+				res.status(status)
+					.render('index.ejs', {
+						reactOutput: reactHtml
+					});
 			}
 		});
 	}
