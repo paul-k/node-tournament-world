@@ -31,10 +31,18 @@ class HomePage extends React.Component {
 			this.setState({ participants });
 		}
 	}
+	onAddNameSubmit(e) {
+		e.preventDefault();
+		this.onAddNameClick();
+	}
 
 	onGenerateRoundsClick() {
 		let rounds = generateRounds(this.state.participants.map(p => p.id));
 		this.setState({ rounds });
+	}
+	onGenerateRoundsSubmit(e) {
+		e.preventDefault();
+		this.onGenerateRoundsClick();
 	}
 
 	getParticipantsName(id) {
@@ -45,12 +53,12 @@ class HomePage extends React.Component {
 	render() {
 		return (
 			<div>
-				<form>
+				<form onSubmit={ this.onAddNameSubmit.bind(this) }>
 					<input type="text" ref="nameInput" />
 					<button onClick={ this.onAddNameClick.bind(this) }>Add Participant</button>
 				</form>
 
-				<form>
+				<form onSubmit={ this.onGenerateRoundsSubmit.bind(this) }>
 					<button onClick={ this.onGenerateRoundsClick.bind(this) }>Generate Rounds</button>
 				</form>
 
