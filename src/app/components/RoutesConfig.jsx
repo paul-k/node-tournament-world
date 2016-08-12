@@ -7,7 +7,7 @@ import HomePage from 'app/components/HomePage';
 import TestPage from 'app/components/TestPage';
 import NotFound from 'app/components/NotFound';
 
-const Routes = (
+const RoutesConfig = (
 	<Route path="/" component={ Container }>
 		<IndexRoute component={ HomePage } />
 		<Route path="/test" component={ TestPage }></Route>
@@ -15,4 +15,4 @@ const Routes = (
 	</Route>
 );
 
-export default Routes;
+export default RoutesConfig;

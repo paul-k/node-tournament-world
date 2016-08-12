@@ -2,7 +2,7 @@ import React from 'react';
 import { renderToString } from 'react-dom/server';
 import { match, RouterContext } from 'react-router';
 
-import routes from 'app/components/Routes';
+import routes from 'app/components/RoutesConfig';
 
 var controller = {
 	index: function(req, res) {
