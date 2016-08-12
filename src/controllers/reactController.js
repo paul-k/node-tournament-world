@@ -3,6 +3,7 @@ import { renderToString } from 'react-dom/server';
 import { match, RouterContext } from 'react-router';
 
 import routes from 'app/components/RoutesConfig';
+import NotFound from 'app/components/NotFound';
 
 var controller = {
 	index: function(req, res) {
@@ -12,16 +13,21 @@ var controller = {
 			} else if (redirectLocation) {
 				res.redirect(302, redirectLocation.pathname + redirectLocation.search);
 			} else if (renderProps) {
-				// You can also check renderProps.components or renderProps.routes for
-				// your "not found" component or route respectively, and send a 404 as
-				// below, if you're using a catch-all route.
-				var reactHtml = renderToString(<RouterContext {...renderProps} />);
+
+				let status = 200;
+
+				if (renderProps.components.indexOf(NotFound) > -1) {
+					status = 404;
+				}
+
+				var reactHtml = renderToString(
+					<RouterContext {...renderProps} />
+				);
+
 				res.render('index.ejs', {
+					status,
 					reactOutput: reactHtml
 				});
-				//res.status(200).send()
-			} else {
-				res.status(404).send('Not found');
 			}
 		});
 	}
