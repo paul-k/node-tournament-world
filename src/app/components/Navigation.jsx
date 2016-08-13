@@ -9,9 +9,9 @@ const Navigation = () => (
 	<nav>
 		<h2>api</h2>
 		<ul>
-			<li><a href="/api/account">Account</a></li>
-			<li><a href="/api/account/signin">Sign in</a></li>
-			<li><a href="/api/account/register">Register</a></li>
+			<li><a href="/api/account" target="_blank">Account</a></li>
+			<li><a href="/api/account/signin" target="_blank">Sign in</a></li>
+			<li><a href="/api/account/register" target="_blank">Register</a></li>
 		</ul>
 		<h2>app</h2>
 		<ul>
