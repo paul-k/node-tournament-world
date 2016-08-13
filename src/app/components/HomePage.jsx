@@ -33,7 +33,6 @@ class HomePage extends React.Component {
 	}
 	onAddNameSubmit(e) {
 		e.preventDefault();
-		this.onAddNameClick();
 	}
 
 	onGenerateRoundsClick() {
@@ -42,12 +41,25 @@ class HomePage extends React.Component {
 	}
 	onGenerateRoundsSubmit(e) {
 		e.preventDefault();
-		this.onGenerateRoundsClick();
 	}
 
-	getParticipantsName(id) {
-		var participant = this.state.participants.filter(p => p.id === id)[0] || {};
-		return participant.name;
+	getParticipantsNames(id1, id2, idx) {
+		var participant1 = this.state.participants.filter(p => p.id === id1)[0];
+		var participant2 = this.state.participants.filter(p => p.id === id2)[0];
+
+		if (participant1 && participant2) {
+			return (
+				<li key={ 'group' + (idx + 1) }>
+					{ participant1.name } <i>vs</i> { participant2.name }
+				</li>
+			);
+		}
+
+		return (
+			<li key={ 'group' + (idx + 1) }>
+				{ (participant1 || {}).name }{ (participant2 || {}).name }
+			</li>
+		);
 	}
 
 	render() {
@@ -75,11 +87,7 @@ class HomePage extends React.Component {
 							<h3>round { ri + 1 }</h3>
 							<ul>
 								{
-									(r.groups || []).map((g, gi) => (
-										<li key={ 'group' + (gi + 1) }>
-											{ this.getParticipantsName(g.id1) }{g.id1} - { this.getParticipantsName(g.id2) }{g.id2}
-										</li>
-									))
+									(r.groups || []).map((g, gi) => this.getParticipantsNames(g.id1, g.id2, gi))
 								}
 							</ul>
 						</div>
