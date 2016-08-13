@@ -14,7 +14,10 @@ class HomePage extends React.Component {
 				{ id: 3, name: 'Simon' },
 				{ id: 4, name: 'Theodore' }
 			],
-			rounds: []
+			rounds: [],
+			scores: {
+
+			}
 		};
 	}
 
@@ -50,14 +53,22 @@ class HomePage extends React.Component {
 		if (participant1 && participant2) {
 			return (
 				<li key={ 'group' + (idx + 1) }>
-					{ participant1.name } <i>vs</i> { participant2.name }
+					<span>{ participant1.name } <i>vs</i> { participant2.name }</span>
+					<select>
+						<option>Winner?..</option>
+						<option value={ participant1.id }>{ participant1.name }</option>
+						<option value={ participant2.id }>{ participant2.name }</option>
+					</select>
 				</li>
 			);
 		}
 
 		return (
 			<li key={ 'group' + (idx + 1) }>
-				{ (participant1 || {}).name }{ (participant2 || {}).name }
+				{ (participant1 || participant2).name }
+				<select>
+						<option value={ (participant1 || participant2).id }>{ (participant1 || participant2).name }</option>
+					</select>
 			</li>
 		);
 	}
@@ -65,6 +76,13 @@ class HomePage extends React.Component {
 	render() {
 		return (
 			<div>
+
+				<h2>participants</h2>
+				<ul>
+				{
+					this.state.participants.map((p, pi) => (<li key={ 'part' + pi }>{ p.name }</li>))
+				}
+				</ul>
 				<form onSubmit={ this.onAddNameSubmit.bind(this) }>
 					<input type="text" ref="nameInput" />
 					<button onClick={ this.onAddNameClick.bind(this) }>Add Participant</button>
@@ -73,13 +91,6 @@ class HomePage extends React.Component {
 				<form onSubmit={ this.onGenerateRoundsSubmit.bind(this) }>
 					<button onClick={ this.onGenerateRoundsClick.bind(this) }>Generate Rounds</button>
 				</form>
-
-				<h2>participants</h2>
-				<ul>
-				{
-					this.state.participants.map((p, pi) => (<li key={ 'part' + pi }>{ p.name }</li>))
-				}
-				</ul>
 
 				{
 					this.state.rounds.map((r, ri) => (
