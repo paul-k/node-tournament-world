@@ -1,5 +1,6 @@
 var path = require('path');
 var fs = require('fs');
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 var nodeModules = {
 	'react-dom/server': 'commonjs react-dom/server'
@@ -14,7 +15,7 @@ var defaultConfig = {
 	},
 	resolve: {
 		root: path.join(__dirname, 'src'),
-		extensions: ['', '.js', '.jsx', '.json']
+		extensions: ['', '.js', '.jsx', '.json', '.scss']
 	},
 	output: {
 		path: path.join(__dirname, 'dist'),
@@ -45,6 +46,15 @@ var server = Object.assign({}, defaultConfig);
 server.entry = {
 	'server': 'server.js',
 };
+server.module.preLoaders.push({
+	test: /\.scss$/,
+	loader: 'ignore-loader'
+});
+server.plugins = [
+	new ExtractTextPlugin('public/style.css', {
+		disable: true
+	})
+];
 server.target = 'node';
 server.externals = nodeModules;
 
@@ -53,6 +63,15 @@ var public = Object.assign({}, defaultConfig);
 public.entry = {
 	'public/app': 'app/app.js'
 };
+public.module.preLoaders.push({
+	test: /\.scss$/,
+	loader: ExtractTextPlugin.extract('style-loader', ['css-loader', 'sass-loader'])
+});
+public.plugins = [
+	new ExtractTextPlugin('public/style.css', {
+		allChunks: true
+	})
+];
 //public.devtool = 'source-map';
 
 module.exports = [server, public];
