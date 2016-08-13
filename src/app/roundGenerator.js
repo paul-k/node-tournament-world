@@ -75,7 +75,8 @@ const generateRounds = function(participantIds) {
 
 			availableCombinations.splice(availableCombinations.indexOf(acceptedGroup), 1);
 		}
-
+		round.groups.reverse();
+		
 		rounds.push(round);
 	}
 

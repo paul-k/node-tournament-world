@@ -1,5 +1,9 @@
-ul {
-	li {
-		display:inline;
+nav {
+	ul {
+		margin-left: -10px;
+		li {
+			display:inline-block;
+			padding-left: 10px;
+		}
 	}
 }
