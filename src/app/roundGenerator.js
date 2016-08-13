@@ -66,7 +66,7 @@ const generateRounds = function(participantIds) {
 			}
 		}
 
-		console.log(r, map);
+		//console.log(r, map);
 
 		for (var ag = 0; ag < acceptedGroups.length; ag++) {
 			let acceptedGroup = acceptedGroups[ag];
