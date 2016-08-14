@@ -1,12 +1,5 @@
 /* eslint no-console: 0 */
 
-const convertToRoundGroup = (ids) => {
-	return {
-		id1: ids[0],
-		id2: ids[1]
-	};
-};
-
 const calculateAvailableCombinations = (participantIds) => {
 
 	let availableCombinations = [];
@@ -24,7 +17,7 @@ const calculateAvailableCombinations = (participantIds) => {
 	return availableCombinations;
 };
 
-const generateRounds = function(participantIds) {
+const generateRounds = function(participantIds, convertToRoundGroup) {
 
 	let rounds = [];
 
@@ -32,6 +25,8 @@ const generateRounds = function(participantIds) {
 	if (participantIds.length % 2 !== 0) {
 		participantIds.unshift(-1);
 	}
+
+	convertToRoundGroup = convertToRoundGroup || ((x) => x);
 
 	let numberOfRounds = participantIds.length - 1;
 	let combinationsPerRound = participantIds.length / 2;
@@ -70,7 +65,7 @@ const generateRounds = function(participantIds) {
 
 		for (var ag = 0; ag < acceptedGroups.length; ag++) {
 			let acceptedGroup = acceptedGroups[ag];
-			let group = convertToRoundGroup(acceptedGroup);
+			let group = convertToRoundGroup(ag + 1, acceptedGroup);
 			round.groups.push(group);
 
 			availableCombinations.splice(availableCombinations.indexOf(acceptedGroup), 1);

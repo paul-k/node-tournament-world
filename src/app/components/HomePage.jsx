@@ -14,10 +14,7 @@ class HomePage extends React.Component {
 				{ id: 3, name: 'Simon' },
 				{ id: 4, name: 'Theodore' }
 			],
-			rounds: [],
-			scores: {
-
-			}
+			rounds: []
 		};
 	}
 
@@ -34,28 +31,40 @@ class HomePage extends React.Component {
 			this.setState({ participants });
 		}
 	}
-	onAddNameSubmit(e) {
+	onPreventSubmit(e) {
 		e.preventDefault();
 	}
 
 	onGenerateRoundsClick() {
-		let rounds = generateRounds(this.state.participants.map(p => p.id));
+		let participantsId = this.state.participants.map(p => p.id);
+		let convertToRoundGroup = (id, ids) => {
+			return {
+				id: id,
+				id1: ids[0],
+				id2: ids[1],
+				winnerId: ''
+			};
+		};
+
+		let rounds = generateRounds(participantsId, convertToRoundGroup);
 		this.setState({ rounds });
 	}
-	onGenerateRoundsSubmit(e) {
-		e.preventDefault();
+
+	onGroupWinnerSelected(group, e) {
+		group.winnerId = e.target.value;
+		this.forceUpdate();
 	}
 
-	getParticipantsNames(id1, id2, idx) {
-		var participant1 = this.state.participants.filter(p => p.id === id1)[0];
-		var participant2 = this.state.participants.filter(p => p.id === id2)[0];
+	generateRoundGroup(group, idx) {
+		var participant1 = this.state.participants.filter(p => p.id === group.id1)[0];
+		var participant2 = this.state.participants.filter(p => p.id === group.id2)[0];
 
 		if (participant1 && participant2) {
 			return (
-				<li key={ 'group' + (idx + 1) }>
+				<li key={ idx }>
 					<span>{ participant1.name } <i>vs</i> { participant2.name }</span>
-					<select>
-						<option>Winner?..</option>
+					<select value={ group.winnerId } onChange={ this.onGroupWinnerSelected.bind(this, group) }>
+						<option value="">Winner?..</option>
 						<option value={ participant1.id }>{ participant1.name }</option>
 						<option value={ participant2.id }>{ participant2.name }</option>
 					</select>
@@ -64,12 +73,23 @@ class HomePage extends React.Component {
 		}
 
 		return (
-			<li key={ 'group' + (idx + 1) }>
+			<li key={ idx }>
 				{ (participant1 || participant2).name }
-				<select>
+				<select value={ group.winnerId }>
 						<option value={ (participant1 || participant2).id }>{ (participant1 || participant2).name }</option>
 					</select>
 			</li>
+		);
+	}
+
+	generateRound(round, idx) {
+		return (
+			<div key={ idx }>
+				<h3>round { idx + 1 }</h3>
+				<ul>
+					{ (round.groups || []).map(this.generateRoundGroup.bind(this)) }
+				</ul>
+			</div>
 		);
 	}
 
@@ -79,31 +99,19 @@ class HomePage extends React.Component {
 
 				<h2>participants</h2>
 				<ul>
-				{
-					this.state.participants.map((p, pi) => (<li key={ 'part' + pi }>{ p.name }</li>))
-				}
+					{ this.state.participants.map((p, pi) => (<li key={ pi }>{ p.name }</li>)) }
 				</ul>
-				<form onSubmit={ this.onAddNameSubmit.bind(this) }>
+
+				<form onSubmit={ this.onPreventSubmit.bind(this) }>
 					<input type="text" ref="nameInput" />
 					<button onClick={ this.onAddNameClick.bind(this) }>Add Participant</button>
 				</form>
 
-				<form onSubmit={ this.onGenerateRoundsSubmit.bind(this) }>
+				<form onSubmit={ this.onPreventSubmit.bind(this) }>
 					<button onClick={ this.onGenerateRoundsClick.bind(this) }>Generate Rounds</button>
 				</form>
 
-				{
-					this.state.rounds.map((r, ri) => (
-						<div key={ 'round' + (ri + 1) }>
-							<h3>round { ri + 1 }</h3>
-							<ul>
-								{
-									(r.groups || []).map((g, gi) => this.getParticipantsNames(g.id1, g.id2, gi))
-								}
-							</ul>
-						</div>
-					))
-				}
+				{ this.state.rounds.map(this.generateRound.bind(this)) }
 			</div>
 		);
 	}
