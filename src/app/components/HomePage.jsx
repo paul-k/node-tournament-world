@@ -14,7 +14,8 @@ class HomePage extends React.Component {
 				{ id: 3, name: 'Simon' },
 				{ id: 4, name: 'Theodore' }
 			],
-			rounds: []
+			rounds: [],
+			scores: []
 		};
 	}
 
@@ -50,9 +51,36 @@ class HomePage extends React.Component {
 		this.setState({ rounds });
 	}
 
+	calculateScores() {
+		let scores = {};
+
+		let winners = this.state.rounds.reduce((rounds, r) => {
+			return rounds.concat(
+				r.groups.reduce((groups, g) => {
+					return groups.concat(parseInt(g.winnerId, 0));
+				}, [])
+			);
+		}, []).sort();
+
+		for (var w = 0; w < winners.length; w++) {
+			if (isNaN(winners[w])) {
+				continue;
+			}
+
+			let p = this.state.participants.filter((a) => a.id === winners[w])[0];
+			if (scores.hasOwnProperty(p.name)) {
+				scores[p.name] += 1;
+			} else {
+				scores[p.name] = 1;
+			}
+		}
+
+		this.setState({ scores });
+	}
+
 	onGroupWinnerSelected(group, e) {
 		group.winnerId = e.target.value;
-		this.forceUpdate();
+		this.calculateScores();
 	}
 
 	generateRoundGroup(group, idx) {
