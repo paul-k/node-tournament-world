@@ -13,12 +13,7 @@ script:
 - webpack
 
 before_deploy:
-- test $TRAVIS_TEST_RESULT = 0 \
-  && webpack \
-  && cd dist \
-  && npm install --prod \
-  && cd $TRAVIS_BUILD_DIR \
-  && tar -zcvf tw-$TRAVIS_BRANCH.tar.gz dist
+- test $TRAVIS_TEST_RESULT = 0 && webpack && cd dist && npm install --prod && cd $TRAVIS_BUILD_DIR && tar -zcvf tw-$TRAVIS_BRANCH.tar.gz dist
 
 deploy:
   provider: releases
