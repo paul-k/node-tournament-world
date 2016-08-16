@@ -5,16 +5,19 @@ install:
 - npm install
 script:
 - webpack
+before_deploy:
+- test $TRAVIS_TEST_RESULT = 0 \# check that build passed successfully
+  && webpack
+  && cd $TRAVIS_BUILD_DIR \
+  && tar -zcvf tw-$TRAVIS_BRANCH.tar.gz dist
 deploy:
   provider: releases
   api_key:
     secure: IJpStDn5CzCYRduUbl/H8bBXrzUNsJt1TBwYF8OwecQNQ5a9VASpuZVS9cUKEueD7HlxBNBhZaTxPwB9VcHmY1fGthacDQiWERZguM3JkjF0AKFoZ2jY8mh+EBnPFe5u31CnR2tTUCj3jGzTwEo/YoaakPe7cML+f2hLARSfX0mLH0+WHjKEScn7eaNGgj9PiWMVjo5+6lz+oAUfpH1gLyn5tIp3JE2XKPjBhdMOdwhmmu+soY8gY6YjVw2F3dSkrd7tOBMdDnbSulKIjyzUZz6OEZCpW9tx38F+cvuFggGWWZXmTu/yMEVdJZAbemNFD6NgwziW2zw72Y5SN9qSk21WzNddcMHs6+io/NZFc9UdrLX0b1QYvvs7jBm7qZSkchUiIe47sOAuJRvPNW8jpbX7+l9DDDOn91wEaI9tenWsPfjJbDuU/Z9z1EO2WsXmOmoPX9uaOsn1BD5sWCCwci6XHBz7Ia8PpNRAMwIK6WthiAuLZoxOwxFymljDw8gmvhrBBf4SDD74owFqxA7ah5VA6ljFTnW5O/2wjulbORxnY4hFuT4Y/T89aYEJIpl5MciMGMHirmWupdcbe01xl7GfiitQrXlreY8AWClJrLXg4VLWHx5X90F1bBeVwn9sbFhCG7Q0Ay2xzmGoy1R436MPNJC7SpuKq8BcXzIlZpc=
-#  file:
-#  - "/dist/server.js"
-#  - "/dist/public/index.ejs"
-#  - "/dist/public/style.css"
-#  - "/dist/public/app.js"
-#  - "/dist/public/favicon.ico"
+  file: tw-$TRAVIS_BRANCH.tar.gz
   skip_cleanup: true
   on:
+    condition: $PRODBUILDCOMPLETE = true
     tags: true
+#after_deploy:
+#  - ssh git@mysite.biz "./deploy.sh $TRAVIS_BRANCH"
