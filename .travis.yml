@@ -5,3 +5,15 @@ install:
   - npm install
 script:
   - webpack
+deploy:
+  provider: releases
+  api_key: "TO DO!"
+  file:
+    - "/dist/server.js"
+    - "/dist/public/index.ejs"
+    - "/dist/public/style.css"
+    - "/dist/public/app.js"
+    - "/dist/public/favicon.ico"
+  skip_cleanup: true
+  on:
+    tags: true
