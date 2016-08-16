@@ -7,7 +7,7 @@ script:
 - webpack
 before_deploy:
 - test $TRAVIS_TEST_RESULT = 0 \# check that build passed successfully
-  && webpack
+  && webpack \
   && cd $TRAVIS_BUILD_DIR \
   && tar -zcvf tw-$TRAVIS_BRANCH.tar.gz dist
 deploy:
@@ -17,7 +17,7 @@ deploy:
   file: tw-$TRAVIS_BRANCH.tar.gz
   skip_cleanup: true
   on:
-    condition: $PRODBUILDCOMPLETE = true
+#    condition: $PRODBUILDCOMPLETE = true
     tags: true
 #after_deploy:
 #  - ssh git@mysite.biz "./deploy.sh $TRAVIS_BRANCH"
