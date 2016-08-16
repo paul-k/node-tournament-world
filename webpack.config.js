@@ -15,7 +15,7 @@ var defaultConfig = {
 	},
 	resolve: {
 		root: path.join(__dirname, 'src'),
-		extensions: ['', '.js', '.jsx', '.json', '.scss']
+		extensions: ['', '.js', '.jsx', '.scss']
 	},
 	output: {
 		path: path.join(__dirname, 'dist'),
@@ -35,9 +35,6 @@ var defaultConfig = {
 			query: {
 				'presets': ['es2015', 'react']
 			}
-		},{
-			test: /\.json$/, 
-			loader: 'json-loader' 
 		}]
 	}
 };

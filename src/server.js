@@ -1,3 +1,7 @@
+// -- -- -- -- -- -- -- -- -- -- -- -- --
+import 'file?name=package.json!../package.json';
+// -- -- -- -- -- -- -- -- -- -- -- -- --
+
 import express from './config/express';
 import configureRoutes from './config/routes';
 import nodeJsx from 'node-jsx';
