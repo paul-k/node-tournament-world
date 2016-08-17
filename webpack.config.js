@@ -1,5 +1,6 @@
 var path = require('path');
 var fs = require('fs');
+var webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 var nodeModules = {
@@ -41,7 +42,7 @@ var defaultConfig = {
 
 var server = Object.assign({}, defaultConfig);
 server.entry = {
-	'server': 'server.js',
+	'server': 'server.js'
 };
 server.module.preLoaders.push({
 	test: /\.scss$/,
@@ -58,7 +59,15 @@ server.externals = nodeModules;
 
 var public = Object.assign({}, defaultConfig);
 public.entry = {
-	'public/app': 'app/app.js'
+	'public/app': 'app/app.js',
+	'vendor': [
+		'react',
+		'react-dom',
+		'react-router',
+		'redux',
+		'reqwest',
+		'classnames'
+	]
 };
 public.module.preLoaders.push({
 	test: /\.scss$/,
@@ -67,7 +76,8 @@ public.module.preLoaders.push({
 public.plugins = [
 	new ExtractTextPlugin('public/style.css', {
 		allChunks: true
-	})
+	}),
+	new webpack.optimize.CommonsChunkPlugin("vendor", "public/vendor.js")
 ];
 //public.devtool = 'source-map';
 
