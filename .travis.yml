@@ -22,7 +22,7 @@ deploy:
   file: tw-$TRAVIS_BRANCH.tar.gz
   skip_cleanup: true
   on:
-    condition: $PRODBUILDCOMPLETE = true
+#    condition: $PRODBUILDCOMPLETE = true
     tags: true
 
 #after_deploy:
