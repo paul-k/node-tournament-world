@@ -17,7 +17,7 @@ const calculateAvailableCombinations = (participantIds) => {
 	return availableCombinations;
 };
 
-const generateRounds = function(participantIds, convertToRoundGroup) {
+const generateRounds = (participantIds, convertToRoundGroup) => {
 
 	let rounds = [];
 
@@ -34,7 +34,7 @@ const generateRounds = function(participantIds, convertToRoundGroup) {
 	let availableCombinations = calculateAvailableCombinations(participantIds);
 	//console.log('start', JSON.stringify(availableCombinations));
 
-	for (var r = 1; r <= numberOfRounds; r++) {
+	for (let r = 1; r <= numberOfRounds; r++) {
 		//console.log(r, 'availableCombinations', JSON.stringify(availableCombinations));
 		let round = {
 			id: r,
@@ -49,8 +49,8 @@ const generateRounds = function(participantIds, convertToRoundGroup) {
 				disallowedGroups.indexOf(ac) === -1 && usedIds.indexOf(ac[0]) === -1 && usedIds.indexOf(ac[1]) === -1);
 
 			if (available.length === 0) {
-				var disallowedIndex = map[map.length - 1];
-				var previous = availableCombinations[disallowedIndex];
+				let disallowedIndex = map[map.length - 1];
+				let previous = availableCombinations[disallowedIndex];
 				map.pop();
 				acceptedGroups.pop();
 				disallowedGroups.push(previous);
@@ -63,7 +63,7 @@ const generateRounds = function(participantIds, convertToRoundGroup) {
 
 		//console.log(r, map);
 
-		for (var ag = 0; ag < acceptedGroups.length; ag++) {
+		for (let ag = 0; ag < acceptedGroups.length; ag++) {
 			let acceptedGroup = acceptedGroups[ag];
 			let group = convertToRoundGroup(ag + 1, acceptedGroup);
 			round.groups.push(group);
