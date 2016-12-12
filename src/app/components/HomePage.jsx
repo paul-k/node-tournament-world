@@ -1,6 +1,6 @@
 import React from 'react';
 
-import generateRounds from 'app/roundGenerator';
+import generateRounds from 'app/services/roundGenerator';
 
 class HomePage extends React.Component {
 
