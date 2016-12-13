@@ -39,53 +39,68 @@ class HomePage extends React.Component {
 	onGenerateRoundsClick() {
 		let participantsId = this.state.participants.map(p => p.id);
 		let convertToRoundGroup = (id, ids) => {
+			let autoRoundWinnerId = ids.indexOf(-1) > -1 ? ids.filter(_ => _ !== -1)[0] : 0;
 			return {
 				groupId: id,
 				firstId: ids[0],
 				secondId: ids[1],
-				winnerId: 0
+				winnerId: autoRoundWinnerId
 			};
 		};
 
 		let rounds = generateRounds(participantsId, convertToRoundGroup);
-		this.setState({ rounds });
+		let scores = this.calculateScores(rounds);
+
+		this.setState({ rounds, scores });
 	}
 
 	findParticipant(id) {
 		return this.state.participants.filter((a) => a.id === id)[0];
 	}
 
-	calculateScores() {
-		let scores = {};
+	calculateScores(rounds) {
+		rounds = rounds || this.state.rounds;
 
-		let winners = this.state.rounds.reduce((rounds, r) => {
-			return rounds.concat(
-				r.groups.reduce((groups, g) => {
-					return groups.concat(g.winnerId, 0);
-				}, [])
-			);
+		let roundWinnerIds = rounds.reduce((rs, r) => {
+			return rs.concat(r.groups.reduce((gs, g) => {
+				return gs.concat(g.winnerId, []);
+			}, []));
 		}, []).sort();
 
-		for (let w = 0; w < winners.length; w++) {
-			let winnersId = winners[w];
-			if (isNaN(winnersId)) {
+		let scores = [], currentId;
+		for (let w = 0; w < roundWinnerIds.length; w++) {
+			let winnersId = roundWinnerIds[w];
+			if (isNaN(winnersId) || winnersId === 0) {
 				continue;
 			}
 
-			let p = this.findParticipant(winnersId);
-			if (scores.hasOwnProperty(p.name)) {
-				scores[p.name] += 1;
+			if (winnersId !== currentId) {
+				let p = this.findParticipant(winnersId);
+				scores.push({ pid: p.id, name: p.name, score: 1 });
 			} else {
-				scores[p.name] = 1;
+				scores[scores.length - 1].score++;
+			}
+			currentId = winnersId;
+		}
+
+		for (let x = 0; x < scores.length; x++) {
+			for (let y = 0; y < x; y++) {
+				if (scores[x].score > scores[y].score) {
+					let s = scores[x];
+					scores[x] = scores[y];
+					scores[y] = s;
+				}
 			}
 		}
 
-		this.setState({ scores });
+		return scores;
 	}
 
 	onGroupWinnerSelected(group, e) {
 		group.winnerId = parseInt(e.target.value, 0);
-		this.calculateScores();
+		let scores = this.calculateScores();
+
+		this.setState({ scores });
 	}
 
 	generateRoundGroup(group, idx) {
@@ -96,7 +111,7 @@ class HomePage extends React.Component {
 			return (
 				<li key={ idx }>
 					<span>{ participant1.name } <i>vs</i> { participant2.name }</span>
-					<select value={ group.winnerId } onChange={ this.onGroupWinnerSelected.bind(this, group) }>
+					<select defaultValue={ group.winnerId } onChange={ this.onGroupWinnerSelected.bind(this, group) }>
 						<option value="">Winner?..</option>
 						<option value={ participant1.id }>{ participant1.name }</option>
 						<option value={ participant2.id }>{ participant2.name }</option>
@@ -108,7 +123,7 @@ class HomePage extends React.Component {
 		return (
 			<li key={ idx }>
 				{ (participant1 || participant2).name }
-				<select value={ group.winnerId }>
+				<select defaultValue={ group.winnerId }>
 						<option value={ (participant1 || participant2).id }>{ (participant1 || participant2).name }</option>
 					</select>
 			</li>
@@ -121,6 +136,21 @@ class HomePage extends React.Component {
 				<h3>round { idx + 1 }</h3>
 				<ul>
 					{ (round.groups || []).map(this.generateRoundGroup.bind(this)) }
+				</ul>
+			</div>
+		);
+	}
+
+	renderScoreBoard() {
+		if (this.state.scores.length === 0) {
+			return null;
+		}
+
+		return (
+			<div>
+				<h2>scores</h2>
+				<ul>
+					{ this.state.scores.map((s) => (<li key={ s.pid }>{ s.name } : { s.score }</li>)) }
 				</ul>
 			</div>
 		);
@@ -143,6 +173,8 @@ class HomePage extends React.Component {
 				<form onSubmit={ this.onPreventSubmit.bind(this) }>
 					<button onClick={ this.onGenerateRoundsClick.bind(this) }>Generate Rounds</button>
 				</form>
+
+				{ this.renderScoreBoard() }
 
 				{ this.state.rounds.map(this.generateRound.bind(this)) }
 			</div>
