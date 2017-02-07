@@ -52,7 +52,7 @@ server.entry = {
 };
 server.module.rules[0].loader = 'ignore-loader';
 server.plugins = [
-	new ExtractTextPlugin({ filename: 'public/style.css', disable: true })
+	new ExtractTextPlugin({ filename: 'junk.css' })
 ];
 server.target = 'node';
 server.externals = nodeModules;
