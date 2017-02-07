@@ -1,8 +1,8 @@
 // -- -- -- -- -- -- -- -- -- -- -- -- --
-import 'file?name=/public/index.ejs!../public/index.ejs';
-import 'file?name=/public/favicon.ico!../public/favicon.ico';
+import 'file-loader?name=/public/index.ejs!../public/index.ejs';
+import 'file-loader?name=/public/favicon.ico!../public/favicon.ico';
 // -- -- -- -- -- -- -- -- -- -- -- -- --
-import '../scss/app.scss';
+import 'scss/app.scss';
 // -- -- -- -- -- -- -- -- -- -- -- -- --
 
 import React from 'react';

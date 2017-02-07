@@ -1,5 +1,5 @@
 // -- -- -- -- -- -- -- -- -- -- -- -- --
-import 'file?name=package.json!../package.json';
+import 'file-loader?name=package.json!../package.json';
 // -- -- -- -- -- -- -- -- -- -- -- -- --
 
 import express from './config/express';

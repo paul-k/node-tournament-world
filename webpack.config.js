@@ -11,30 +11,36 @@ fs.readdirSync('node_modules')
 	.forEach(mod => { nodeModules[mod] = 'commonjs ' + mod; });
 
 var defaultConfig = {
-	context: path.join(__dirname, 'src'),
-	entry: {
-	},
+	context: path.resolve(__dirname, './src'),
 	resolve: {
-		root: path.join(__dirname, 'src'),
-		extensions: ['', '.js', '.jsx', '.scss']
+		modules: [
+			path.resolve(__dirname, './src'),
+			'node_modules'
+		],
+		extensions: ['.js', '.jsx', '.scss'],
+		enforceExtension: false
 	},
 	output: {
-		path: path.join(__dirname, 'dist'),
+		path: path.resolve(__dirname, './dist'),
 		publicPath : '/dist',
 		filename: '[name].js'
 	},
 	module: {
-		preLoaders: [{
+		rules: [{
+			enforce: 'pre',
+			test: /\.scss$/,
+			exclude: /node_modules/
+		},{
+			enforce: 'pre',
 			test: /\.js$|\.jsx$/,
 			exclude: /node_modules/,
-			loader: "eslint-loader" 
-		}],
-		loaders: [{
+			loader: "eslint-loader"
+		},{
 			test: /\.js$|\.jsx$/,
 			exclude: /node_modules/,
 			loader: 'babel-loader',
-			query: {
-				'presets': ['es2015', 'react']
+			options: {
+				presets: ['es2015', 'react']
 			}
 		}]
 	}
@@ -42,16 +48,11 @@ var defaultConfig = {
 
 var server = Object.assign({}, defaultConfig);
 server.entry = {
-	'server': 'server.js'
+	'server': './server.js'
 };
-server.module.preLoaders.push({
-	test: /\.scss$/,
-	loader: 'ignore-loader'
-});
+server.module.rules[0].loader = 'ignore-loader';
 server.plugins = [
-	new ExtractTextPlugin('public/style.css', {
-		disable: true
-	})
+	new ExtractTextPlugin({ filename: 'public/style.css', disable: true })
 ];
 server.target = 'node';
 server.externals = nodeModules;
@@ -59,25 +60,21 @@ server.externals = nodeModules;
 
 var public = Object.assign({}, defaultConfig);
 public.entry = {
-	'public/app': 'app/app.js',
+	'public/app': './app/app.js',
 	'vendor': [
 		'react',
 		'react-dom',
 		'react-router',
+		'react-redux',
 		'redux',
 		'reqwest',
 		'classnames'
 	]
 };
-public.module.preLoaders.push({
-	test: /\.scss$/,
-	loader: ExtractTextPlugin.extract('style-loader', ['css-loader', 'sass-loader'])
-});
+public.module.rules[0].loader = ExtractTextPlugin.extract({ fallback: 'style-loader', use: ['css-loader', 'sass-loader']});
 public.plugins = [
-	new ExtractTextPlugin('public/style.css', {
-		allChunks: true
-	}),
-	new webpack.optimize.CommonsChunkPlugin("vendor", "public/vendor.js")
+	new ExtractTextPlugin({ filename: 'public/style.css', allChunks: true }),
+	new webpack.optimize.CommonsChunkPlugin({ name: "vendor", filename: "public/vendor.js" })
 ];
 //public.devtool = 'source-map';
 
