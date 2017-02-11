@@ -5,6 +5,9 @@ import { match, RouterContext } from 'react-router';
 import routes from 'app/components/RoutesConfig';
 import NotFound from 'app/components/NotFound';
 
+import { Provider } from 'react-redux';
+import Store from 'app/store';
+
 var controller = {
 	index: function(req, res) {
 		match({ routes, location: req.url }, (error, redirectLocation, renderProps) => {
@@ -15,7 +18,11 @@ var controller = {
 			} else if (renderProps) {
 
 				let status = (renderProps.components.indexOf(NotFound) > -1) ? 404 : 200;
-				var reactHtml = renderToString(<RouterContext {...renderProps} />);
+				var reactHtml = renderToString(
+					<Provider store={Store}>
+						<RouterContext {...renderProps} />
+					</Provider>
+				);
 
 				res.status(status)
 					.render('index.ejs', {

@@ -67,9 +67,8 @@ public.entry = {
 		'react-router',
 		'react-redux',
 		'redux',
-		'isomorphic-fetch',
-		'classnames',
-		'babel-polyfill'
+		'redux-thunk',
+		'classnames'
 	]
 };
 public.module.rules[0].loader = ExtractTextPlugin.extract({ fallback: 'style-loader', use: ['css-loader', 'sass-loader']});

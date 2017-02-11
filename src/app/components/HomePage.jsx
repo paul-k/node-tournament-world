@@ -1,8 +1,10 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 import generateRounds from 'app/services/roundGenerator';
+import { loadUsers } from 'app/actions/usersActions';
 
-class HomePage extends React.Component {
+export class HomePage extends React.Component {
 
 	constructor(props) {
 		super(props);
@@ -17,6 +19,11 @@ class HomePage extends React.Component {
 			rounds: [],
 			scores: []
 		};
+	}
+
+	componentDidMount() {
+		const { dispatch } = this.props;
+		dispatch(loadUsers());
 	}
 
 	onAddNameClick() {
@@ -182,4 +189,9 @@ class HomePage extends React.Component {
 	}
 }
 
-export default HomePage;
+const mapStateToProps = (state) => {
+	return {
+	};
+};
+
+export default connect(mapStateToProps)(HomePage);

@@ -1,5 +1,3 @@
-import 'babel-polyfill';
-
 // -- -- -- -- -- -- -- -- -- -- -- -- --
 import 'file-loader?name=/public/index.ejs!../public/index.ejs';
 import 'file-loader?name=/public/favicon.ico!../public/favicon.ico';
