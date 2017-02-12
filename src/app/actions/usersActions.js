@@ -3,7 +3,6 @@ export const USERS_REMOVE = 'USERS_REMOVE';
 export const USERS_LOAD_FROM_SERVER = 'USERS_LOAD_FROM_SERVER';
 
 export function addUser(user) {
-	console.log(user);
 	return { type: USERS_ADD, user };
 }
 
