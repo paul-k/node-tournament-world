@@ -45,17 +45,8 @@ export class HomePage extends React.Component {
 
 	onGenerateRoundsClick() {
 		let participantsId = this.state.participants.map(p => p.id);
-		let convertToRoundGroup = (id, ids) => {
-			let autoRoundWinnerId = ids.indexOf(-1) > -1 ? ids.filter(_ => _ !== -1)[0] : 0;
-			return {
-				groupId: id,
-				firstId: ids[0],
-				secondId: ids[1],
-				winnerId: autoRoundWinnerId
-			};
-		};
 
-		let rounds = generateRounds(participantsId, convertToRoundGroup);
+		let rounds = generateRounds(participantsId);
 		let scores = this.calculateScores(rounds);
 
 		this.setState({ rounds, scores });

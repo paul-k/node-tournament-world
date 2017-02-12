@@ -17,7 +17,17 @@ const calculateAvailableCombinations = (participantIds) => {
 	return availableCombinations;
 };
 
-const generateRounds = (participantIds, convertToRoundGroup) => {
+const convertToRoundGroup = (id, ids) => {
+	let autoRoundWinnerId = ids.indexOf(-1) > -1 ? ids.filter(_ => _ !== -1)[0] : 0;
+	return {
+		groupId: id,
+		firstId: ids[0],
+		secondId: ids[1],
+		winnerId: autoRoundWinnerId
+	};
+};
+
+const generateRounds = (participantIds) => {
 
 	let rounds = [];
 
@@ -25,8 +35,6 @@ const generateRounds = (participantIds, convertToRoundGroup) => {
 	if (participantIds.length % 2 !== 0) {
 		participantIds.unshift(-1);
 	}
-
-	convertToRoundGroup = convertToRoundGroup || ((x) => x);
 
 	let numberOfRounds = participantIds.length - 1;
 	let combinationsPerRound = participantIds.length / 2;
