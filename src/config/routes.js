@@ -4,7 +4,7 @@ import generatorController from 'controllers/generatorController';
 
 import bodyParser from 'body-parser';
 
-var jsonParser = bodyParser.json()
+var jsonParser = bodyParser.json();
 
 const routes = function(app) {
 	app.get('/api/users', userController.get);

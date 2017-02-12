@@ -1,41 +1,28 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { loadUsers } from 'app/actions/usersActions';
+import { loadTournament, addParticipant, generateRounds, calculateScores } from 'app/actions/tournamentActions';
 
 export class TournamentPage extends React.Component {
 
 	constructor(props) {
 		super(props);
-
-		this.state = {
-			participants: [
-				{ id: 1, name: 'Dave' },
-				{ id: 2, name: 'Alvin' },
-				{ id: 3, name: 'Simon' },
-				{ id: 4, name: 'Theodore' }
-			],
-			rounds: [],
-			scores: []
-		};
 	}
 
-	componentDidMount() {
-		const { dispatch } = this.props;
-		dispatch(loadUsers());
-	}
+	// componentDidMount() {
+	// 	this.props.onPageLoad();
+	// }
 
 	onAddNameClick() {
 		if (this.refs.nameInput.value.length > 0) {
-			let participants = Object.assign([], this.state.participants);
-
-			participants.push({
-				id: participants.length + 1,
+			let newParticipant = {
+				id: this.props.participants.length + 1,
 				name: this.refs.nameInput.value
-			});
+			};
+
 			this.refs.nameInput.value = '';
 
-			this.setState({ participants });
+			this.props.onAddParticipant(newParticipant);
 		}
 	}
 	onPreventSubmit(e) {
@@ -43,71 +30,18 @@ export class TournamentPage extends React.Component {
 	}
 
 	onGenerateRoundsClick() {
-		let participantsId = this.state.participants.map(p => p.id);
-
-		fetch('/api/generator/roundRobin', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify(participantsId)
-		}).then(resp => {
-			return resp.json();
-		}).then(data => {
-
-			let scores = this.calculateScores(data);
-
-			this.setState({ rounds: data, scores });
-		});
+		let participantsId = this.props.participants.map(p => p.id);
+		this.props.onGenerateRounds(participantsId);
 	}
 
 	findParticipant(id) {
-		return this.state.participants.filter((a) => a.id === id)[0];
-	}
-
-	calculateScores(rounds) {
-		rounds = rounds || this.state.rounds;
-
-		let roundWinnerIds = rounds.reduce((rs, r) => {
-			return rs.concat(r.groups.reduce((gs, g) => {
-				return gs.concat(g.winnerId, []);
-			}, []));
-		}, []).sort();
-
-		let scores = [], currentId;
-		for (let w = 0; w < roundWinnerIds.length; w++) {
-			let winnersId = roundWinnerIds[w];
-			if (isNaN(winnersId) || winnersId === 0) {
-				continue;
-			}
-
-			if (winnersId !== currentId) {
-				let p = this.findParticipant(winnersId);
-				scores.push({ pid: p.id, name: p.name, score: 1 });
-			} else {
-				scores[scores.length - 1].score++;
-			}
-			currentId = winnersId;
-		}
-
-		for (let x = 0; x < scores.length; x++) {
-			for (let y = 0; y < x; y++) {
-				if (scores[x].score > scores[y].score) {
-					let s = scores[x];
-					scores[x] = scores[y];
-					scores[y] = s;
-				}
-			}
-		}
-
-		return scores;
+		return this.props.participants.filter((a) => a.id === id)[0];
 	}
 
 	onGroupWinnerSelected(group, e) {
 		group.winnerId = parseInt(e.target.value, 0);
-		let scores = this.calculateScores();
 
-		this.setState({ scores });
+		this.props.onUpdateScores();
 	}
 
 	generateRoundGroup(group, idx) {
@@ -149,7 +83,7 @@ export class TournamentPage extends React.Component {
 	}
 
 	renderScoreBoard() {
-		if (this.state.scores.length === 0) {
+		if (this.props.scores.length === 0) {
 			return null;
 		}
 
@@ -157,7 +91,7 @@ export class TournamentPage extends React.Component {
 			<div>
 				<h2>scores</h2>
 				<ul>
-					{ this.state.scores.map((s) => (<li key={ s.pid }>{ s.name } : { s.score }</li>)) }
+					{ this.props.scores.map((s) => (<li key={ s.pid }>{ s.name } : { s.score }</li>)) }
 				</ul>
 			</div>
 		);
@@ -169,7 +103,7 @@ export class TournamentPage extends React.Component {
 
 				<h2>participants</h2>
 				<ul>
-					{ this.state.participants.map((p, pi) => (<li key={ pi }>{ p.name }</li>)) }
+					{ this.props.participants.map((p, pi) => (<li key={ pi }>{ p.name }</li>)) }
 				</ul>
 
 				<form onSubmit={ this.onPreventSubmit.bind(this) }>
@@ -183,15 +117,35 @@ export class TournamentPage extends React.Component {
 
 				{ this.renderScoreBoard() }
 
-				{ this.state.rounds.map(this.generateRound.bind(this)) }
+				{ this.props.rounds.map(this.generateRound.bind(this)) }
 			</div>
 		);
 	}
 }
 
-const mapStateToProps = (state) => {
+const mapDispatchToProps = (dispatch) => {
 	return {
+		onPageLoad: () => {
+			dispatch(loadTournament());
+		},
+		onAddParticipant: (newParticipant) => {
+			dispatch(addParticipant(newParticipant));
+		},
+		onGenerateRounds: (participantsId) => {
+			dispatch(generateRounds(participantsId));
+		},
+		onUpdateScores: () => {
+			dispatch(calculateScores());
+		}
 	};
 };
 
-export default connect(mapStateToProps)(TournamentPage);
+const mapStateToProps = (state) => {
+	return {
+		participants: state.tournament.participants,
+		rounds: state.tournament.rounds,
+		scores: state.tournament.scores
+	};
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(TournamentPage);
