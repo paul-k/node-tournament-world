@@ -1,10 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import generateRounds from 'app/services/roundGenerator';
 import { loadUsers } from 'app/actions/usersActions';
 
-export class HomePage extends React.Component {
+export class TournamentPage extends React.Component {
 
 	constructor(props) {
 		super(props);
@@ -46,10 +45,20 @@ export class HomePage extends React.Component {
 	onGenerateRoundsClick() {
 		let participantsId = this.state.participants.map(p => p.id);
 
-		let rounds = generateRounds(participantsId);
-		let scores = this.calculateScores(rounds);
+		fetch('/api/generator/roundRobin', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(participantsId)
+		}).then(resp => {
+			return resp.json();
+		}).then(data => {
 
-		this.setState({ rounds, scores });
+			let scores = this.calculateScores(data);
+
+			this.setState({ rounds: data, scores });
+		});
 	}
 
 	findParticipant(id) {
@@ -185,4 +194,4 @@ const mapStateToProps = (state) => {
 	};
 };
 
-export default connect(mapStateToProps)(HomePage);
+export default connect(mapStateToProps)(TournamentPage);
