@@ -2,17 +2,21 @@ import { USERS_ADD, USERS_REMOVE } from 'app/actions/usersActions';
 
 function addUser(state, action) {
 	let result = Object.assign([], state);
-	result.concat([action.user]);
+	result.list = result.list.concat([action.user]);
 	return result;
 }
 
 function removeUser(state, action) {
 	let result = Object.assign([], state);
-	result = result.filter(u => u.id !== action.user.id);
+	result.list = result.list.filter(u => u.id !== action.user.id);
 	return result;
 }
 
-export const usersReducer = (state = [], action) => {
+const initialState = {
+	list: []
+};
+
+export const usersReducer = (state = initialState, action) => {
 
 	switch (action.type) {
 		case USERS_ADD:
