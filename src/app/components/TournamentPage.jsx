@@ -83,7 +83,9 @@ export class TournamentPage extends React.Component {
 	}
 
 	renderScoreBoard() {
-		if (this.props.scores.length === 0) {
+		let { scores } = this.props;
+
+		if (scores.length === 0) {
 			return null;
 		}
 
@@ -91,19 +93,21 @@ export class TournamentPage extends React.Component {
 			<div>
 				<h2>scores</h2>
 				<ul>
-					{ this.props.scores.map((s) => (<li key={ s.pid }>{ s.name } : { s.score }</li>)) }
+					{ scores.map((s) => (<li key={ s.pid }>{ s.name } : { s.score }</li>)) }
 				</ul>
 			</div>
 		);
 	}
 
 	render() {
+		let { participants, scores } = this.props;
+
 		return (
 			<div>
 
 				<h2>participants</h2>
 				<ul>
-					{ this.props.participants.map((p, pi) => (<li key={ pi }>{ p.name }</li>)) }
+					{ participants.map((p, pi) => (<li key={ pi }>{ p.name }</li>)) }
 				</ul>
 
 				<form onSubmit={ this.onPreventSubmit.bind(this) }>
@@ -117,7 +121,7 @@ export class TournamentPage extends React.Component {
 
 				{ this.renderScoreBoard() }
 
-				{ this.props.rounds.map(this.generateRound.bind(this)) }
+				{ rounds.map(this.generateRound.bind(this)) }
 			</div>
 		);
 	}
