@@ -100,7 +100,7 @@ export class TournamentPage extends React.Component {
 	}
 
 	render() {
-		let { participants, scores } = this.props;
+		let { participants, rounds } = this.props;
 
 		return (
 			<div>
