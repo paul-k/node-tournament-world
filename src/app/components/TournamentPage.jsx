@@ -1,8 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { loadTournament, addParticipant, generateRounds, calculateScores } from 'app/actions/tournamentActions';
+import { loadTournament, generateRounds, calculateScores } from 'app/actions/tournamentActions';
 
+import ParticipantList from 'app/components/TournamentPage/ParticipantList';
 import ScoreBoard from 'app/components/TournamentPage/ScoreBoard';
 
 export class TournamentPage extends React.Component {
@@ -14,19 +15,6 @@ export class TournamentPage extends React.Component {
 	// componentDidMount() {
 	// 	this.props.onPageLoad();
 	// }
-
-	onAddNameClick() {
-		if (this.refs.nameInput.value.length > 0) {
-			let newParticipant = {
-				id: this.props.participants.length + 1,
-				name: this.refs.nameInput.value
-			};
-
-			this.refs.nameInput.value = '';
-
-			this.props.onAddParticipant(newParticipant);
-		}
-	}
 	onPreventSubmit(e) {
 		e.preventDefault();
 	}
@@ -85,21 +73,13 @@ export class TournamentPage extends React.Component {
 	}
 
 	render() {
-		let { participants, rounds, params } = this.props;
+		let { rounds, params } = this.props;
 
 		return (
 			<div>
 				<h1>{ params.tid }</h1>
 
-				<h2>participants</h2>
-				<ul>
-					{ participants.map((p, pi) => (<li key={ pi }>{ p.name }</li>)) }
-				</ul>
-
-				<form onSubmit={ this.onPreventSubmit.bind(this) }>
-					<input type="text" ref="nameInput" />
-					<button onClick={ this.onAddNameClick.bind(this) }>Add Participant</button>
-				</form>
+				<ParticipantList />
 
 				<form onSubmit={ this.onPreventSubmit.bind(this) }>
 					<button onClick={ this.onGenerateRoundsClick.bind(this) }>Generate Rounds</button>
@@ -117,9 +97,6 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		onPageLoad: () => {
 			dispatch(loadTournament());
-		},
-		onAddParticipant: (newParticipant) => {
-			dispatch(addParticipant(newParticipant));
 		},
 		onGenerateRounds: (participantsId) => {
 			dispatch(generateRounds(participantsId));
