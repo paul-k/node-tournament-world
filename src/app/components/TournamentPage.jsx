@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 
 import { loadTournament, addParticipant, generateRounds, calculateScores } from 'app/actions/tournamentActions';
 
+import ScoreBoard from 'app/components/TournamentPage/ScoreBoard';
+
 export class TournamentPage extends React.Component {
 
 	constructor(props) {
@@ -82,28 +84,12 @@ export class TournamentPage extends React.Component {
 		);
 	}
 
-	renderScoreBoard() {
-		let { scores } = this.props;
-
-		if (scores.length === 0) {
-			return null;
-		}
-
-		return (
-			<div>
-				<h2>scores</h2>
-				<ul>
-					{ scores.map((s) => (<li key={ s.pid }>{ s.name } : { s.score }</li>)) }
-				</ul>
-			</div>
-		);
-	}
-
 	render() {
-		let { participants, rounds } = this.props;
+		let { participants, rounds, params } = this.props;
 
 		return (
 			<div>
+				<h1>{ params.tid }</h1>
 
 				<h2>participants</h2>
 				<ul>
@@ -119,7 +105,7 @@ export class TournamentPage extends React.Component {
 					<button onClick={ this.onGenerateRoundsClick.bind(this) }>Generate Rounds</button>
 				</form>
 
-				{ this.renderScoreBoard() }
+				<ScoreBoard />
 
 				{ rounds.map(this.generateRound.bind(this)) }
 			</div>
@@ -147,8 +133,7 @@ const mapDispatchToProps = (dispatch) => {
 const mapStateToProps = (state) => {
 	return {
 		participants: state.tournament.participants,
-		rounds: state.tournament.rounds,
-		scores: state.tournament.scores
+		rounds: state.tournament.rounds
 	};
 };
 
