@@ -1,19 +1,14 @@
 import { TOURNAMENT_ADD_PARTICIPANT, TOURNAMENT_UPDATE_ROUNDS, TOURNAMENT_CALCULATE_SCORES } from 'app/actions/tournamentActions';
 
 const initialState = {
-	participants: [
-		{ id: 1, name: 'Dave' },
-		{ id: 2, name: 'Alvin' },
-		{ id: 3, name: 'Simon' },
-		{ id: 4, name: 'Theodore' }
-	],
+	participants: [],
 	rounds: [],
 	scores: []
 };
 
 const addParticipant = (state, action) => {
 	let result = Object.assign({}, state);
-	result.participants.push(action.participant);
+	result.participants = state.participants.slice(0).concat([action.participant]);
 	return result;
 };
 
@@ -41,7 +36,11 @@ const calculateScores = (state, action) => {
 
 		if (winnersId !== currentId) {
 			let p = result.participants.filter((a) => a.id === winnersId)[0];
-			scores.push({ pid: p.id, name: p.name, score: 1 });
+			scores.push({
+				pid: p.id,
+				name: p.name,
+				score: 1
+			});
 		} else {
 			scores[scores.length - 1].score++;
 		}

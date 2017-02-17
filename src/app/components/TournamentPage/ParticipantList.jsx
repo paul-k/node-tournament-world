@@ -26,21 +26,12 @@ export class ParticipantList extends React.Component {
 		}
 	}
 
-	renderAddPartipant() {
-		if (this.props.canNoLongerAddParticipants) {
+	render() {
+		let { participants, theTournamentHasStarted } = this.props;
+
+		if (theTournamentHasStarted) {
 			return null;
 		}
-
-		return (
-			<form onSubmit={ this.onPreventSubmit.bind(this) }>
-				<input type="text" ref="nameInput" />
-				<button onClick={ this.onAddNameClick.bind(this) }>Add Participant</button>
-			</form>
-		);
-	}
-
-	render() {
-		let { participants } = this.props;
 
 		return (
 			<div>
@@ -49,7 +40,10 @@ export class ParticipantList extends React.Component {
 					{ participants.map((p, pi) => (<li key={ pi }>{ p.name }</li>)) }
 				</ul>
 
-				{ this.renderAddPartipant() }
+				<form onSubmit={ this.onPreventSubmit.bind(this) }>
+					<input type="text" ref="nameInput" />
+					<button onClick={ this.onAddNameClick.bind(this) }>Add Participant</button>
+				</form>
 			</div>
 		);
 	}
@@ -66,7 +60,7 @@ const mapDispatchToProps = (dispatch) => {
 const mapStateToProps = (state) => {
 	return {
 		participants: state.tournament.participants,
-		canNoLongerAddParticipants: state.tournament.rounds.length > 0
+		theTournamentHasStarted: state.tournament.rounds.length > 0
 	};
 };
 
