@@ -1,9 +1,13 @@
-import { TOURNAMENT_ADD_PARTICIPANT, TOURNAMENT_UPDATE_ROUNDS, TOURNAMENT_CALCULATE_SCORES } from 'app/actions/tournamentActions';
+import { TOURNAMENT_RESET, TOURNAMENT_ADD_PARTICIPANT, TOURNAMENT_UPDATE_ROUNDS, TOURNAMENT_CALCULATE_SCORES } from 'app/actions/tournamentActions';
 
 const initialState = {
 	participants: [],
 	rounds: [],
 	scores: []
+};
+
+const resetTournament = (state, action) => {
+	return initialState;
 };
 
 const addParticipant = (state, action) => {
@@ -64,6 +68,8 @@ const calculateScores = (state, action) => {
 export const tournamentReducer = (state = initialState, action) => {
 
 	switch (action.type) {
+		case TOURNAMENT_RESET:
+			return resetTournament(state, action);
 		case TOURNAMENT_ADD_PARTICIPANT:
 			return addParticipant(state, action);
 		case TOURNAMENT_UPDATE_ROUNDS:

@@ -13,9 +13,9 @@ export class TournamentPage extends React.Component {
 		super(props);
 	}
 
-	// componentDidMount() {
-	// 	this.props.onPageLoad();
-	// }
+	componentDidMount() {
+		this.props.onPageLoad(this.props.params.tid);
+	}
 
 	render() {
 		let { params } = this.props;
@@ -36,8 +36,8 @@ export class TournamentPage extends React.Component {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		onPageLoad: () => {
-			dispatch(loadTournament());
+		onPageLoad: (tournamentId) => {
+			dispatch(loadTournament(tournamentId));
 		}
 	};
 };
