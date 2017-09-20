@@ -19,10 +19,6 @@ var controller = {
 			</Provider>
 		);
 
-		// if (error) {
-		// 	res.status(500).send(error.message);
-		// }
-
 		if (context.url) {
 			res.redirect(302, context.url);
 		}

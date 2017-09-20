@@ -1,5 +1,6 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
+import Status from 'app/components/Status';
 
 import Navigation from 'app/components/Navigation';
 
@@ -15,7 +16,9 @@ const MainApp = () => (
 			<Route path="/" exact component={ HomePage } />
 			<Route path="/t/:tid" component={ TournamentPage } />
 			<Route path="/test" component={ TestPage } />
-			<Route path="*" component={ NotFound } />
+			<Status code={404}>
+				<Route path="*" component={ NotFound } />
+			</Status>
 		</Switch>
 	</div>
 );
