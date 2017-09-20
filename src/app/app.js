@@ -14,10 +14,12 @@ import { Provider } from 'react-redux';
 import Store from 'app/store';
 import Routes from 'app/components/RoutesConfig';
 
-ReactDom.render(
+var provider = (
 	<Provider store={Store}>
 		<Router history={ browserHistory }>
 			{ Routes }
 		</Router>
 	</Provider>
-, document.getElementById('main'));
+);
+
+ReactDom.render(provider, document.getElementById('main'));

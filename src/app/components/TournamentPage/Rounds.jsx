@@ -49,8 +49,8 @@ export class Rounds extends React.Component {
 			<li key={ idx }>
 				{ (participant1 || participant2).name }
 				<select defaultValue={ group.winnerId }>
-						<option value={ (participant1 || participant2).id }>{ (participant1 || participant2).name }</option>
-					</select>
+					<option value={ (participant1 || participant2).id }>{ (participant1 || participant2).name }</option>
+				</select>
 			</li>
 		);
 	}
