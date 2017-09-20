@@ -1,35 +1,36 @@
 import React from 'react';
 import { renderToString } from 'react-dom/server';
-import { match, RouterContext } from 'react-router';
-
-import routes from 'app/components/RoutesConfig';
-import NotFound from 'app/components/NotFound';
+import { StaticRouter } from 'react-router';
 
 import { Provider } from 'react-redux';
 import Store from 'app/store';
+import App from 'app/MainApp';
 
 var controller = {
 	index: function(req, res) {
-		match({ routes, location: req.url }, (error, redirectLocation, renderProps) => {
-			if (error) {
-				res.status(500).send(error.message);
-			} else if (redirectLocation) {
-				res.redirect(302, redirectLocation.pathname + redirectLocation.search);
-			} else if (renderProps) {
 
-				let status = (renderProps.components.indexOf(NotFound) > -1) ? 404 : 200;
-				var reactHtml = renderToString(
-					<Provider store={Store}>
-						<RouterContext {...renderProps} />
-					</Provider>
-				);
+		var context = {};
 
-				res.status(status)
-					.render('index.ejs', {
-						reactOutput: reactHtml
-					});
-			}
-		});
+		var reactHtml = renderToString(
+			<Provider store={ Store }>
+				<StaticRouter location={ req.url } context={ context }>
+					<App />
+				</StaticRouter>
+			</Provider>
+		);
+
+		// if (error) {
+		// 	res.status(500).send(error.message);
+		// }
+
+		if (context.url) {
+			res.redirect(302, context.url);
+		}
+
+		res.status(context.statusCode || 200)
+			.render('index.ejs', {
+				reactOutput: reactHtml
+			});
 	}
 };
 

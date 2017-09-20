@@ -14,15 +14,15 @@ export class TournamentPage extends React.Component {
 	}
 
 	componentDidMount() {
-		this.props.onPageLoad(this.props.params.tid);
+		this.props.onPageLoad(this.props.match.params.tid);
 	}
 
 	render() {
-		let { params } = this.props;
+		let { match } = this.props;
 
 		return (
 			<div>
-				<h1>{ params.tid }</h1>
+				<h1>{ match.params.tid }</h1>
 
 				<ParticipantList />
 				<ScoreBoard />

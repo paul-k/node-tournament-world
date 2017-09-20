@@ -7,18 +7,17 @@ import 'scss/app.scss';
 
 import React from 'react';
 import ReactDom from 'react-dom';
-import { Router, browserHistory } from 'react-router';
-
+import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 
 import Store from 'app/store';
-import Routes from 'app/components/RoutesConfig';
+import App from 'app/MainApp';
 
 var provider = (
 	<Provider store={Store}>
-		<Router history={ browserHistory }>
-			{ Routes }
-		</Router>
+		<BrowserRouter>
+			<App />
+		</BrowserRouter>
 	</Provider>
 );
 
